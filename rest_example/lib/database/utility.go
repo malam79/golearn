@@ -50,39 +50,11 @@ func GetValidFloat(a sql.NullFloat64) float64 {
 }
 
 func WriteHtmlFutures(W http.ResponseWriter, results []lib.Futures) error {
-	var futures = template.Must(template.New("futures").Parse(`
-	  <h1>Future Symbols</h1>
-	  <table>
-	    <tr style='text-align: left'>
-	      <th>Currency</th>
-	      <th>MarketID</th>
-	      <th>Identifier</th>
-	      <th>CurrentRootSymbol</th>
-	      <th>ExpirationDate</th>
-	      <th>Underlier</th>
-	      <th>SpreadTickSize</th>
-	      <th>DeliveryType</th>
-	      <th>InitialMargin</th>
-	      <th>MaintenanceMargin</th>
-	      <th>MemeberInitialMargin</th>
-	      <th>MemeberMainenanceMargin</th>
-	    </tr>
-	    {{range .}}
-	      <tr>
-	        <td>{{.Currency}}</td>
-	        <td>{{.MarketID}}</td>
-	        <td>{{.Identifier}}</td>
-	        <td>{{.CurrentRootSymbol}}</td>
-	        <td>{{.ExpirationDate}}</td>
-	        <td>{{.Underlier}}</td>
-	        <td>{{.SpreadTicketSize}}</td>
-	        <td>{{.DeliveryType}}</td>
-	        <td>{{.InitialMargin}}</td>
-	        <td>{{.MaintenanceMargin}}</td>
-	        <td>{{.MemberInitialMargin}}</td>
-	        <td>{{.MemberMaintenanceMargin}}</td>
-	      </tr>
-	    {{end}}
-	  </table>`))
-	return futures.Execute(W, results)
+	futures, err := template.ParseFiles("Future.html")
+	if err != nil {
+		fmt.Println(err)
+		return err
+	}
+
+	return futures.ExecuteTemplate(W, "Future.html", results)
 }
