@@ -25,7 +25,16 @@ func GetOptionsQuery() string {
 	                    JOIN MarketDefinition AS md ON im.MarketID = md.MarketID 
 	                    JOIN OptionsCharacteristics AS oc ON im.InstrumentID = oc.InstrumentID 
 	                    JOIN InstrumentTickSizeMultiplier AS instrTSM ON im.InstrumentID = instrTSM.InstrumentID 
-	                    WHERE ident.IdentifierTypeID = 1 im.InstTypeID = 3 GROUP BY im.InstrumentID;`)
+	                    WHERE ident.IdentifierTypeID = 1 AND im.InstTypeID = 3 GROUP BY im.InstrumentID;`)
+}
+
+func GetEquityQuery() string {
+	return fmt.Sprintf(`SELECT ident.Identifier, im.Currency, md.MarketName, 
+                        max(instrTSM.StartDate) AS StartDt, instrTSM.Multiplier, instrTSM.TickSizeRegimeID
+                        FROM InstrumentMaster AS im JOIN IdentifierMap AS ident ON im.InstrumentID = ident.InstrumentID 
+                        JOIN MarketDefinition AS md ON im.MarketID = md.MarketID
+                        JOIN InstrumentTickSizeMultiplier AS instrTSM ON im.InstrumentID = instrTSM.InstrumentID
+                        WHERE ident.IdentifierTypeID = 1 AND im.InstTypeID = 1 GROUP BY im.InstrumentID;`)
 }
 
 func GetValidInt(a sql.NullInt64) int {
@@ -55,6 +64,5 @@ func WriteHtmlFutures(W http.ResponseWriter, results []lib.Futures) error {
 		fmt.Println(err)
 		return err
 	}
-
 	return futures.ExecuteTemplate(W, "Future.html", results)
 }

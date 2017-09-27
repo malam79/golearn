@@ -36,9 +36,9 @@ var routes = Routes{
 		Index,
 	},
 	Route{
-		"Futures",
+		"Symbols",
 		"GET",
-		"/futures",
-		Futures,
+		"/Symbols",
+		Symbols,
 	},
 }

@@ -72,3 +72,26 @@ func GetFutures(db *sql.DB) (results []lib.Futures, err error) {
 	}
 	return results, nil
 }
+
+func GetEquity(db *sql.DB) (results []lib.Equity, err error) {
+	rows, err := db.Query(GetEquityQuery())
+	defer rows.Close()
+	if err != nil {
+		return
+	}
+	for rows.Next() {
+		var identifier, currency, marketName, startDate sql.NullString
+		var multiplier sql.NullFloat64
+		var ticksize sql.NullInt64
+		err = rows.Scan(&identifier, &currency, &marketName, &startDate, &multiplier, &ticksize)
+		results = append(results, lib.Equity{
+			lib.Instrument{GetValidString(currency),
+				GetValidString(marketName),
+				GetValidString(identifier)},
+			GetValidString(startDate),
+			GetValidFloat(multiplier),
+			GetValidInt(ticksize),
+		})
+	}
+	return results, nil
+}
