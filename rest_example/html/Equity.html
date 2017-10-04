@@ -1,0 +1,21 @@
+<h1>Equity Symbols</h1>
+	<table>
+	    <tr style='text-align: left'>
+	      <th>Currency</th>
+	      <th>MarketID</th>
+	      <th>Identifier</th>
+	      <th>StartDate</th>
+	      <th>Multiplier</th>
+	      <th>TickSize</th>
+	    </tr>
+	    {{range .}}
+	      <tr>
+	        <td>{{.Currency}}</td>
+	        <td>{{.MarketID}}</td>
+	        <td>{{.Identifier}}</td>
+	        <td>{{.StartDate}}</td>
+	        <td>{{.Multiplier}}</td>
+	        <td>{{.TickSizeRegimeID}}</td>
+	      </tr>
+	    {{end}}
+    </table>

@@ -1,9 +1,5 @@
 package lib
 
-import (
-	_ "time"
-)
-
 type Instrument struct {
 	Currency   string `json: "Currency"`
 	MarketID   string `json: "MarketID"`
@@ -11,7 +7,7 @@ type Instrument struct {
 }
 
 type Option struct {
-	Instrument
+	Instrument     `json: Instrument`
 	Underlier      int     `json: "Underlier"`
 	PutorCall      rune    `json: "PutorCall"`
 	ExcerciseStyle rune    `json: "ExcerciseStyle"`
@@ -24,7 +20,7 @@ type Option struct {
 }
 
 type Futures struct {
-	Instrument
+	Instrument              `json: Instrument`
 	CurrentRootSymbol       string  `json: "CurrentRootSymbol"`
 	ExpirationDate          string  `json: "ExpirationDate"`
 	Underlier               int     `json: "Underlier"`
@@ -34,4 +30,11 @@ type Futures struct {
 	MaintenanceMargin       float64 `json: "MaintenanceMargin"`
 	MemberInitialMargin     float64 `json: "MemberInitialMargin"`
 	MemberMaintenanceMargin float64 `json: "MemberMaintenanceMargin"`
+}
+
+type Equity struct {
+	Instrument       `json: Instrument`
+	StartDate        string  `json: StartDate`
+	Multiplier       float64 `json: Multiplier`
+	TickSizeRegimeID int     `json: TickSizeRegimeID`
 }

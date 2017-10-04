@@ -1,6 +1,7 @@
-package rest_api
+package API
 
 import (
+	_ "fmt"
 	"github.com/gorilla/mux"
 	"net/http"
 )
@@ -36,9 +37,9 @@ var routes = Routes{
 		Index,
 	},
 	Route{
-		"Symbols",
-		"GET",
-		"/Symbols",
-		Symbols,
+		"AddUser",
+		"POST",
+		"/AddUser",
+		AddUser,
 	},
 }
